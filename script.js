@@ -16,3 +16,20 @@ let rolls = 0;
 let score = 0;
 let total = 0;
 let round = 1;
+
+rollDiceBtn.addEventListener("click", () => {
+    diceValuesArr = [];
+    for (let i = 0; i < 5; i++) {
+        diceValuesArr.push(Math.ceil(Math.random() * 6));
+        diceValuesArr.sort((a, b) => a - b);
+    }
+    listOfAllDice.forEach((die, index) => {
+        die.textContent = diceValuesArr[index];
+    });
+});
+
+rulesBtn.addEventListener("click", () => {
+    isModalShowing = !isModalShowing;
+    rulesContainer.style.display = isModalShowing ? "block" : "none";
+    rulesBtn.textContent = isModalShowing ? "Hide Rules" : "Show Rules";
+});
