@@ -39,6 +39,21 @@ const updateRadioOptions = (index, score) => {
     scoreSpans[index].textContent = `, score = ${score}`;
 }
 
+const getHighestDuplicates = (arr) => {
+    let sum = diceValuesArr.reduce((acc, currVal) => acc + currVal, 0);
+    let duplicates = {};
+    // logic for counting dupes
+    if (Object.hasOwn(duplicates, 4)) {
+      // 4 of a kind logic
+      updateRadioOptions(1, sum)
+    } else if (Object.hasOwn(duplicates, 3)) {
+      // 3 of a kind logic
+      updateRadioOptions(0, sum)
+    } else {
+      updateRadioOptions(5, 0)
+    }
+  }
+
 rollDiceBtn.addEventListener("click", () => {
     if (rolls === 3) {
         alert("You have made three rolls this round. Please select a score before rolling again.")
