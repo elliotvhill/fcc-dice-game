@@ -17,7 +17,7 @@ let score = 0;
 let total = 0;
 let round = 1;
 
-rollDiceBtn.addEventListener("click", () => {
+const rollDice = () => {
     diceValuesArr = [];
     for (let i = 0; i < 5; i++) {
         diceValuesArr.push(Math.ceil(Math.random() * 6));
@@ -26,6 +26,21 @@ rollDiceBtn.addEventListener("click", () => {
     listOfAllDice.forEach((die, index) => {
         die.textContent = diceValuesArr[index];
     });
+}
+
+const updateStats = () => {
+    currentRound.textContent = round;
+    currentRoundRolls.textContent = rolls;
+}
+
+rollDiceBtn.addEventListener("click", () => {
+    if (rolls === 3) {
+        alert("You have made three rolls this round. Please select a score before rolling again.")
+    } else {
+        rolls++;
+        rollDice();
+        updateStats();
+    }
 });
 
 rulesBtn.addEventListener("click", () => {
