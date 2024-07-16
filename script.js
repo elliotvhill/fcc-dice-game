@@ -33,6 +33,12 @@ const updateStats = () => {
     currentRoundRolls.textContent = rolls;
 }
 
+const updateRadioOptions = (index, score) => {
+    scoreInputs[index].disabled = !scoreInputs[index].disabled;
+    scoreInputs[index].value = score;
+    scoreSpans[index].textContent = `, score = ${score}`;
+}
+
 rollDiceBtn.addEventListener("click", () => {
     if (rolls === 3) {
         alert("You have made three rolls this round. Please select a score before rolling again.")
