@@ -34,27 +34,26 @@ const updateStats = () => {
 }
 
 const updateRadioOption = (index, score) => {
-    scoreInputs[index].disabled = false;
+    scoreInputs[index].disabled = !scoreInputs[index].disabled;
     scoreInputs[index].value = score;
     scoreSpans[index].textContent = `, score = ${score}`;
 }
 
 const getHighestDuplicates = (arr) => {
-    let sum = diceValuesArr.reduce((acc, currVal) => acc + currVal, 0);
+    let sum = arr.reduce((acc, currVal) => acc + currVal, 0);
     let duplicates = {};
     // logic for counting dupes
-    diceValuesArr.forEach((num) => {
+    arr.forEach((num) => {
         duplicates[num] ? (duplicates[num] += 1) : (duplicates[num] = 1)
     })
 
-    for (const duplicate in duplicates) {
-        // 4 of a kind logic
-        if (duplicate.valueOf(4)) {
+    console.log(duplicates)
+    for (let num in duplicates) {
+        if (duplicates[num] >= 4) {
             updateRadioOption(1, sum)
-        // 3 of a kind logic
-        } else if (duplicate.valueOf(3)) {
+        } else if (duplicates[num] >= 3) {
             updateRadioOption(1, sum)
-        } else {
+        } else if (duplicates[num] < 3) {
             updateRadioOption(5, 0)
         }
     }
@@ -67,6 +66,7 @@ rollDiceBtn.addEventListener("click", () => {
         rolls++;
         rollDice();
         updateStats();
+        getHighestDuplicates(diceValuesArr);
     }
 });
 
