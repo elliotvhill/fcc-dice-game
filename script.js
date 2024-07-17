@@ -43,14 +43,29 @@ const getHighestDuplicates = (arr) => {
     let sum = diceValuesArr.reduce((acc, currVal) => acc + currVal, 0);
     let duplicates = {};
     // logic for counting dupes
-    if (Object.hasOwn(duplicates, 4)) {
-      // 4 of a kind logic
-      updateRadioOptions(1, sum)
-    } else if (Object.hasOwn(duplicates, 3)) {
-      // 3 of a kind logic
-      updateRadioOptions(0, sum)
-    } else {
-      updateRadioOptions(5, 0)
+    diceValuesArr.forEach((num) => {
+        duplicates[num] ? (duplicates[num] += 1) : (duplicates[num] = 1)
+    })
+
+    // 4 of a kind logic
+    for (const duplicate in duplicates) {
+        // if (Object.hasOwn(duplicates, duplicate)) {
+        if (duplicate.valueOf() >= 4) {
+            updateRadioOptions(1, sum)
+        }
+    }
+    
+    // 3 of a kind logic
+    for (const duplicate in duplicates) {
+        if (duplicate.valueOf() >= 3) {
+            updateRadioOptions(1, sum)
+        }
+    
+        // } else if (Object.hasOwn(duplicates, 3)) {
+        //   updateRadioOptions(0, sum)
+        // } else {
+        //   updateRadioOptions(5, 0)
+        // }
     }
   }
 
