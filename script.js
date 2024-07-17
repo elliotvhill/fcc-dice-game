@@ -33,8 +33,8 @@ const updateStats = () => {
     currentRoundRolls.textContent = rolls;
 }
 
-const updateRadioOptions = (index, score) => {
-    scoreInputs[index].disabled = !scoreInputs[index].disabled;
+const updateRadioOption = (index, score) => {
+    scoreInputs[index].disabled = false;
     scoreInputs[index].value = score;
     scoreSpans[index].textContent = `, score = ${score}`;
 }
@@ -47,25 +47,16 @@ const getHighestDuplicates = (arr) => {
         duplicates[num] ? (duplicates[num] += 1) : (duplicates[num] = 1)
     })
 
-    // 4 of a kind logic
     for (const duplicate in duplicates) {
-        // if (Object.hasOwn(duplicates, duplicate)) {
-        if (duplicate.valueOf() >= 4) {
-            updateRadioOptions(1, sum)
+        // 4 of a kind logic
+        if (duplicate.valueOf(4)) {
+            updateRadioOption(1, sum)
+        // 3 of a kind logic
+        } else if (duplicate.valueOf(3)) {
+            updateRadioOption(1, sum)
+        } else {
+            updateRadioOption(5, 0)
         }
-    }
-    
-    // 3 of a kind logic
-    for (const duplicate in duplicates) {
-        if (duplicate.valueOf() >= 3) {
-            updateRadioOptions(1, sum)
-        }
-    
-        // } else if (Object.hasOwn(duplicates, 3)) {
-        //   updateRadioOptions(0, sum)
-        // } else {
-        //   updateRadioOptions(5, 0)
-        // }
     }
   }
 
