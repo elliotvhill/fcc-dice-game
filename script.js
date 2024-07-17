@@ -51,8 +51,8 @@ const getHighestDuplicates = (arr) => {
     for (let num in duplicates) {
         if (duplicates[num] >= 4) {
             updateRadioOption(1, sum)
-        } else if (duplicates[num] >= 3) {
-            updateRadioOption(1, sum)
+        } else if (duplicates[num] = 3) {
+            updateRadioOption(0, sum)
         } else if (duplicates[num] < 3) {
             updateRadioOption(5, 0)
         }
