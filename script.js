@@ -42,15 +42,13 @@ const updateRadioOption = (index, score) => {
 const getHighestDuplicates = (arr) => {
     let sum = arr.reduce((acc, currVal) => acc + currVal, 0);
     let duplicates = {};
-    // logic for counting dupes
     arr.forEach((num) => {
         duplicates[num] ? (duplicates[num] += 1) : (duplicates[num] = 1)
     })
-
-    console.log(duplicates)
     for (let num in duplicates) {
         if (duplicates[num] >= 4) {
             updateRadioOption(1, sum)
+            updateRadioOption(0, sum)
         } else if (duplicates[num] === 3) {
             updateRadioOption(0, sum)
         } else {
