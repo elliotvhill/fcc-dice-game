@@ -26,50 +26,58 @@ const rollDice = () => {
     listOfAllDice.forEach((die, index) => {
         die.textContent = diceValuesArr[index];
     });
-}
+};
 
 const updateStats = () => {
     currentRound.textContent = round;
     currentRoundRolls.textContent = rolls;
-}
+};
 
 const updateRadioOption = (index, score) => {
     scoreInputs[index].disabled = !scoreInputs[index].disabled;
     scoreInputs[index].value = score;
     scoreSpans[index].textContent = `, score = ${score}`;
-}
+};
+
+const updateScore = (selectedValue, achieved) => {
+    score += parseInt(selectedValue);
+    totalScore.textContent = score;
+    scoreHistory.innerHTML = `<li>${achieved}: ${selectedValue}</li>`;
+};
 
 const getHighestDuplicates = (arr) => {
     let sum = arr.reduce((acc, currVal) => acc + currVal, 0);
     let duplicates = {};
     arr.forEach((num) => {
-        duplicates[num] ? (duplicates[num] += 1) : (duplicates[num] = 1)
-    })
+        duplicates[num] ? (duplicates[num] += 1) : (duplicates[num] = 1);
+    });
     for (let num in duplicates) {
         if (duplicates[num] >= 4) {
-            updateRadioOption(1, sum)
-            updateRadioOption(0, sum)
+            updateRadioOption(1, sum);
+            updateRadioOption(0, sum);
         } else if (duplicates[num] === 3) {
-            updateRadioOption(0, sum)
+            updateRadioOption(0, sum);
         } else {
-            updateRadioOption(5, 0)
+            updateRadioOption(5, 0);
         }
     }
-}
-  
+};
+
 const resetRadioOptions = () => {
     scoreInputs.forEach((input) => {
         input.disabled = true;
         input.checked = false;
-    })
+    });
     scoreSpans.forEach((span) => {
         span.textContent = "";
-    })
-}
+    });
+};
 
 rollDiceBtn.addEventListener("click", () => {
     if (rolls === 3) {
-        alert("You have made three rolls this round. Please select a score before rolling again.")
+        alert(
+            "You have made three rolls this round. Please select a score before rolling again."
+        );
     } else {
         resetRadioOptions();
         rolls++;
@@ -83,4 +91,22 @@ rulesBtn.addEventListener("click", () => {
     isModalShowing = !isModalShowing;
     rulesContainer.style.display = isModalShowing ? "block" : "none";
     rulesBtn.textContent = isModalShowing ? "Hide Rules" : "Show Rules";
+});
+
+keepScoreBtn.addEventListener("click", () => {
+    let selectedValue;
+    let achieved;
+    for (const input of scoreInputs) {
+        if (input.checked) {
+            selectedValue = input.value;
+            achieved = input.id;
+            break;
+        }
+        if (selectedValue) {
+            updateScore(selectedValue, achieved);
+            resetRadioOptions();
+        } else {
+            alert("Please select a score to keep");
+        }
+    }
 });
