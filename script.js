@@ -79,8 +79,8 @@ rollDiceBtn.addEventListener("click", () => {
             "You have made three rolls this round. Please select a score before rolling again."
         );
     } else {
-        resetRadioOptions();
         rolls++;
+        resetRadioOptions();
         rollDice();
         updateStats();
         getHighestDuplicates(diceValuesArr);
@@ -102,11 +102,14 @@ keepScoreBtn.addEventListener("click", () => {
             achieved = input.id;
             break;
         }
+    }
         if (selectedValue) {
-            updateScore(selectedValue, achieved);
+            rolls = 0;
+            round++;
+            updateStats();
             resetRadioOptions();
+            updateScore(selectedValue, achieved);
         } else {
             alert("Please select a score to keep");
         }
-    }
 });
