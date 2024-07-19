@@ -73,6 +73,18 @@ const resetRadioOptions = () => {
     });
 };
 
+const resetGame = () => {
+    listOfAllDice.forEach((die) => {
+        die.textContent = "0";
+    });
+    score = 0;
+    rolls = 0;
+    round = 1;
+    totalScore.textContent = "0";
+    scoreHistory.textContent = "";
+    currentRound.textContent = round;
+}
+
 rollDiceBtn.addEventListener("click", () => {
     if (rolls === 3) {
         alert(
@@ -109,7 +121,11 @@ keepScoreBtn.addEventListener("click", () => {
             updateStats();
             resetRadioOptions();
             updateScore(selectedValue, achieved);
+            if (round === 6) {
+                setTimeout(() => alert(`Final score: ${score}`), 500)
+                resetGame();
+            }
         } else {
-            alert("Please select a score to keep");
+            alert("Please select a score to keep or roll again");
         }
 });
