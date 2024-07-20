@@ -103,6 +103,18 @@ const resetGame = () => {
     currentRound.textContent = round;
 };
 
+const checkForStraights = (arr) => {
+    // large straight
+        // logic
+        updateRadioOption(5, 40);
+    // small straight
+        // logic
+        updateRadioOption(4, 30);
+    // no straight
+        // logic
+        updateRadioOption(5, 0);
+}
+
 rollDiceBtn.addEventListener("click", () => {
     if (rolls === 3) {
         alert(
@@ -115,6 +127,7 @@ rollDiceBtn.addEventListener("click", () => {
         updateStats();
         getHighestDuplicates(diceValuesArr);
         detectFullHouse(diceValuesArr);
+        checkForStraights(diceValuesArr);
     }
 });
 
