@@ -63,7 +63,7 @@ const getHighestDuplicates = (arr) => {
     }
 };
 
-const detectFullHouse = () => {
+const detectFullHouse = (arr) => {
     let counts = {};
     arr.forEach((num) => {
         counts[num] ? (counts[num] += 1) : (counts[num] = 1);
@@ -105,19 +105,24 @@ const resetGame = () => {
 
 const checkForStraights = (arr) => {
     let count = 0;
-    for (let i = 1; i < arr.length; i++) {
-        if (arr[i] != arr[i - 1] && arr[i] - arr[i - 1] === 1) {
+    for (let i = 0; i < arr.length; i++) {
+        // if (arr[i] != arr[i - 1] && arr[i] - arr[i - 1] === 1) {
+        if (arr[i] + 1 === arr[i + 1]) {
             count++;
-            if (count === 4) {
-                updateRadioOption(3, 30); // small straight
-            } else if (count === 5) {
+            if (count === 5) {
                 updateRadioOption(3, 30); // small straight
                 updateRadioOption(4, 40); // large straight
-            } else {
+                console.log("large and small straights found", arr)
+            } else if (count === 4) {
+                updateRadioOption(3, 30); // small straight
+                console.log("small straight found", arr)
+            } /* else {
                 updateRadioOption(5, 0); // no straight
-            }
+                console.log("no straight found", arr)
+            } */
         } else {
             updateRadioOption(5, 0); // no straight
+            console.log("no straight found")
         }
     }
 
@@ -147,7 +152,10 @@ rollDiceBtn.addEventListener("click", () => {
         updateStats();
         getHighestDuplicates(diceValuesArr);
         detectFullHouse(diceValuesArr);
-        checkForStraights(diceValuesArr);
+        // checkForStraights(diceValuesArr);
+        checkForStraights([1, 2, 3, 4, 5]);
+        checkForStraights([2, 3, 4, 5, 6]);
+        checkForStraights([1, 1, 4, 4, 5]);
     }
 });
 
