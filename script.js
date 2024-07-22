@@ -21,7 +21,6 @@ const rollDice = () => {
     diceValuesArr = [];
     for (let i = 0; i < 5; i++) {
         diceValuesArr.push(Math.ceil(Math.random() * 6));
-        diceValuesArr.sort((a, b) => a - b);
     }
     listOfAllDice.forEach((die, index) => {
         die.textContent = diceValuesArr[index];
@@ -42,7 +41,7 @@ const updateRadioOption = (index, score) => {
 const updateScore = (selectedValue, achieved) => {
     score += parseInt(selectedValue);
     totalScore.textContent = score;
-    scoreHistory.innerHTML = `<li>${achieved}: ${selectedValue}</li>`;
+    scoreHistory.innerHTML += `<li>${achieved}: ${selectedValue}</li>`;
 };
 
 const getHighestDuplicates = (arr) => {
@@ -51,7 +50,7 @@ const getHighestDuplicates = (arr) => {
     arr.forEach((num) => {
         duplicates[num] ? (duplicates[num] += 1) : (duplicates[num] = 1);
     });
-    for (let num in duplicates) {
+    for (const num in duplicates) {
         if (duplicates[num] >= 4) {
             updateRadioOption(1, sum);
             updateRadioOption(0, sum);
@@ -64,7 +63,7 @@ const getHighestDuplicates = (arr) => {
 };
 
 const detectFullHouse = (arr) => {
-    let counts = {};
+    const counts = {};
     arr.forEach((num) => {
         counts[num] ? (counts[num] += 1) : (counts[num] = 1);
     });
@@ -95,6 +94,7 @@ const resetGame = () => {
     listOfAllDice.forEach((die) => {
         die.textContent = "0";
     });
+    diceValuesArr = [0, 0, 0, 0, 0];
     score = 0;
     rolls = 0;
     round = 1;
@@ -104,24 +104,19 @@ const resetGame = () => {
 };
 
 const checkForStraights = (arr) => {
+    arr.sort((a, b) => a - b);
     let count = 0;
-    for (let i = 0; i < arr.length + 1; i++) {
+    for (let i = 0; i <= arr.length; i++) {
         if (arr[i] + 1 === arr[i + 1] || arr[-i - 1] === arr[i]) {
             count++;
             if (count === 5) {
                 updateRadioOption(3, 30); // small straight
                 updateRadioOption(4, 40); // large straight
-                console.log("large and small straights found", arr)
-                return
             } else if (count === 4) {
                 updateRadioOption(3, 30); // small straight
-                console.log("small straight found", arr)
-                return
             }
         } else {
             updateRadioOption(5, 0); // no straight
-            console.log("no straight found", arr)
-            return
         }
     }
 };
@@ -138,11 +133,7 @@ rollDiceBtn.addEventListener("click", () => {
         updateStats();
         getHighestDuplicates(diceValuesArr);
         detectFullHouse(diceValuesArr);
-        // checkForStraights(diceValuesArr);
-        checkForStraights([1, 2, 3, 4, 5]);
-        checkForStraights([2, 3, 4, 5, 6]);
-        checkForStraights([1, 1, 4, 4, 5]);
-        checkForStraights([1, 1, 4, 4, 4]);
+        checkForStraights(diceValuesArr);
     }
 });
 
@@ -168,9 +159,11 @@ keepScoreBtn.addEventListener("click", () => {
         updateStats();
         resetRadioOptions();
         updateScore(selectedValue, achieved);
-        if (round === 6) {
-            setTimeout(() => alert(`Final score: ${score}`), 500);
-            resetGame();
+        if (round > 6) {
+            setTimeout(() => {
+                alert(`Final score: ${score}`);
+                resetGame();
+            }, 500);
         }
     } else {
         alert("Please select a score to keep or roll again");
