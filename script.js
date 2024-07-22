@@ -105,39 +105,25 @@ const resetGame = () => {
 
 const checkForStraights = (arr) => {
     let count = 0;
-    for (let i = 0; i < arr.length; i++) {
-        // if (arr[i] != arr[i - 1] && arr[i] - arr[i - 1] === 1) {
-        if (arr[i] + 1 === arr[i + 1]) {
+    for (let i = 0; i < arr.length + 1; i++) {
+        if (arr[i] + 1 === arr[i + 1] || arr[-i - 1] === arr[i]) {
             count++;
             if (count === 5) {
                 updateRadioOption(3, 30); // small straight
                 updateRadioOption(4, 40); // large straight
                 console.log("large and small straights found", arr)
+                return
             } else if (count === 4) {
                 updateRadioOption(3, 30); // small straight
                 console.log("small straight found", arr)
-            } /* else {
-                updateRadioOption(5, 0); // no straight
-                console.log("no straight found", arr)
-            } */
+                return
+            }
         } else {
             updateRadioOption(5, 0); // no straight
-            console.log("no straight found")
+            console.log("no straight found", arr)
+            return
         }
     }
-
-    // for (let i = 0; i <= arr.length; i++) {
-    //     if (arr.includes(arr[i] + 1)) {
-    //         i = arr[i] + 1;
-    //         updateRadioOption(4, 40); // large straight
-    //         updateRadioOption(3, 30); // small straight
-    //     } else if (arr.includes(arr[i] + 2)) {
-    //         i = arr[i] + 2;
-    //         updateRadioOption(3, 30); // small straight
-    //     } else {
-    //         updateRadioOption(5, 0); // no straight
-    //     }
-    // }
 };
 
 rollDiceBtn.addEventListener("click", () => {
@@ -156,6 +142,7 @@ rollDiceBtn.addEventListener("click", () => {
         checkForStraights([1, 2, 3, 4, 5]);
         checkForStraights([2, 3, 4, 5, 6]);
         checkForStraights([1, 1, 4, 4, 5]);
+        checkForStraights([1, 1, 4, 4, 4]);
     }
 });
 
